@@ -1,6 +1,6 @@
 package com.vgcslabs.ohs.batch;
 
-import com.vgcslabs.ohs.dto.OrderIntegrationData;
+import com.vgcslabs.ohs.dto.OrderIntegrationDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.batch.item.file.FlatFileItemReader;
@@ -12,7 +12,6 @@ import org.springframework.batch.item.file.mapping.FieldSetMapper;
 import org.springframework.batch.item.file.transform.DelimitedLineTokenizer;
 import org.springframework.batch.item.file.transform.LineTokenizer;
 import org.springframework.context.annotation.Bean;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.stereotype.Component;
 
@@ -28,9 +27,8 @@ public class OrderIntegrationDataReader {
     private final BatchJobProperties jobProperties;
 
     @Bean("orderIntegrationFlatFileItemReader")
-    @StepScope
-    public FlatFileItemReader<OrderIntegrationData> reader() throws IOException {
-        return new FlatFileItemReaderBuilder<OrderIntegrationData>()
+    public FlatFileItemReader<OrderIntegrationDto> reader() throws IOException {
+        return new FlatFileItemReaderBuilder<OrderIntegrationDto>()
 
                 .name(ORDER_INTEGRATION_FLAT_FILE_ITEM_READER)
                 .resource(new FileSystemResource(jobProperties.getOrderIntegrationInputFile()))
@@ -38,23 +36,21 @@ public class OrderIntegrationDataReader {
                 .lineMapper(orderIntegrationDataLineMapper())
                 .build();
     }
-    public LineMapper<OrderIntegrationData> orderIntegrationDataLineMapper() {
-        DefaultLineMapper<OrderIntegrationData> lineMapper = new DefaultLineMapper<>();
+    public LineMapper<OrderIntegrationDto> orderIntegrationDataLineMapper() {
+        DefaultLineMapper<OrderIntegrationDto> lineMapper = new DefaultLineMapper<>();
         lineMapper.setLineTokenizer(orderIntegrationDataLineTokenizer());
         lineMapper.setFieldSetMapper(orderIntegrationDataFieldSetMapper());
         return lineMapper;
     }
-
-
     public LineTokenizer orderIntegrationDataLineTokenizer() {
         DelimitedLineTokenizer tokenizer = new DelimitedLineTokenizer();
-        tokenizer.setNames(getFieldNames((OrderIntegrationData.class)));
+        tokenizer.setNames(getFieldNames((OrderIntegrationDto.class)));
         return tokenizer;
     }
 
-    public FieldSetMapper<OrderIntegrationData> orderIntegrationDataFieldSetMapper() {
-        BeanWrapperFieldSetMapper<OrderIntegrationData> fieldSetMapper = new BeanWrapperFieldSetMapper<>();
-        fieldSetMapper.setTargetType(OrderIntegrationData.class);
+    public FieldSetMapper<OrderIntegrationDto> orderIntegrationDataFieldSetMapper() {
+        BeanWrapperFieldSetMapper<OrderIntegrationDto> fieldSetMapper = new BeanWrapperFieldSetMapper<>();
+        fieldSetMapper.setTargetType(OrderIntegrationDto.class);
         return fieldSetMapper;
     }
 

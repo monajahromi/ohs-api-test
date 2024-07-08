@@ -5,7 +5,7 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class OrderIntegrationData {
+public class OrderIntegrationDto {
 
     private String id;
     private String firstName;
@@ -22,6 +22,7 @@ public class OrderIntegrationData {
     private String quantity;
     private String fullName;
     private String orderStatus;
+
 
 
 }

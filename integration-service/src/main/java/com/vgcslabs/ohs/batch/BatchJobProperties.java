@@ -11,8 +11,11 @@ public class BatchJobProperties {
     @Value("${order.integration.input.file}")
     private String orderIntegrationInputFile;
 
-    @Value("${order.integration.output.file}")
-    private String orderIntegrationOutputFile;
+    @Value("${order.integration.output.success.file}")
+    private String orderIntegrationOutputSucessFile;
+
+    @Value("${order.integration.output.fail.file}")
+    private String orderIntegrationOutputFailFile;
 
     @Value("${order.integration.csv.read.linesToSkip::#{1}}")
     private int linesToSkip;

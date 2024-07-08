@@ -1,6 +1,6 @@
 package com.vgcslabs.ohs.batch;
 
-import com.vgcslabs.ohs.dto.OrderIntegrationData;
+import com.vgcslabs.ohs.dto.OrderIntegrationDto;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.job.builder.JobBuilder;
@@ -8,7 +8,8 @@ import org.springframework.batch.core.repository.JobRepository;
 import org.springframework.batch.core.step.builder.StepBuilder;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.batch.item.ItemReader;
-import org.springframework.batch.item.ItemWriter;
+import org.springframework.batch.item.ItemStreamWriter;
+import org.springframework.batch.item.support.ClassifierCompositeItemWriter;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
@@ -19,29 +20,49 @@ import static com.vgcslabs.ohs.batch.BatchJobConstants.ORDER_INTEGRATION_STEP;
 
 @Component
 public class OrderIntegrationJobSetup {
-    private final ItemProcessor<OrderIntegrationData, OrderIntegrationData> processor;
-    private final ItemReader<OrderIntegrationData> reader;
-    private final ItemWriter<OrderIntegrationData> writer;
+    private final ItemProcessor<OrderIntegrationDto, String> processor;
+    private final ItemReader<OrderIntegrationDto> reader;
+    private final OrderIntegrationClassifierWriter classifier;
+    private final ItemStreamWriter<String> successWriter;
+    private final ItemStreamWriter<String> failWriter;
 
     public OrderIntegrationJobSetup(
-            ItemProcessor<OrderIntegrationData, OrderIntegrationData> processor,
-            @Qualifier("orderIntegrationFlatFileItemReader") ItemReader<OrderIntegrationData> reader,
-            @Qualifier("orderIntegrationJsonItemWriter") ItemWriter<OrderIntegrationData> writer) {
+            @Qualifier("orderIntegrationFlatFileItemReader") ItemReader<OrderIntegrationDto> reader,
+            ItemProcessor<OrderIntegrationDto, String> processor,
+            @Qualifier("orderIntegrationJsonItemWriterSuccess") ItemStreamWriter<String> successWriter,
+            @Qualifier("orderIntegrationJsonItemWriterFail") ItemStreamWriter<String> failWriter,
+            OrderIntegrationClassifierWriter classifier
+    ) {
 
         this.processor = processor;
         this.reader = reader;
-        this.writer = writer;
+        this.classifier = classifier;
+        this.successWriter = successWriter;
+        this.failWriter = failWriter;
+
     }
 
     @Bean("orderIntegrationStep")
     public Step importVisitorsStep(JobRepository jobRepository,
                                    PlatformTransactionManager transactionManager) {
         return new StepBuilder(ORDER_INTEGRATION_STEP, jobRepository)
-                .<OrderIntegrationData, OrderIntegrationData>chunk(10, transactionManager)
+                .<OrderIntegrationDto, String>chunk(10, transactionManager)
                 .reader(reader)
                 .processor(processor)
-                .writer(writer)
+                .writer(classifierCompositeItemWriter())
+                .stream(successWriter)
+                .stream(failWriter)
+                .faultTolerant()
+                .skip(Exception.class)
+                .skipLimit(Integer.MAX_VALUE)
                 .build();
+    }
+
+
+    public ClassifierCompositeItemWriter<String> classifierCompositeItemWriter() {
+        ClassifierCompositeItemWriter<String> classifierCompositeItemWriter = new ClassifierCompositeItemWriter<>();
+        classifierCompositeItemWriter.setClassifier(classifier);
+        return classifierCompositeItemWriter;
     }
 
     @Bean("orderIntegrationJob")

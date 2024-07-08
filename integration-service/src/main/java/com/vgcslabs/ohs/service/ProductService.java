@@ -1,8 +1,11 @@
 package com.vgcslabs.ohs.service;
 
 import com.google.protobuf.StringValue;
+import com.vgcslabs.ohs.exception.NotFoundException;
 import com.vgcslabs.product.ProductResponse;
 import com.vgcslabs.product.ProductServiceGrpc;
+import io.grpc.Status;
+import io.grpc.StatusRuntimeException;
 import net.devh.boot.grpc.client.inject.GrpcClient;
 import org.springframework.stereotype.Service;
 
@@ -18,5 +21,21 @@ public class ProductService {
         var request = StringValue.newBuilder().setValue(productPid).build();
         return this.productClient.getProductByPid(request);
     }
+
+    public ProductResponse validateProduct(String productPid) {
+        try {
+            var request = StringValue.newBuilder().setValue(productPid).build();
+
+            return this.productClient.getProductByPid(request);
+        } catch (StatusRuntimeException e) {
+            if (e.getStatus().getCode().equals(Status.Code.UNKNOWN)) {
+                throw new NotFoundException(e.getMessage());
+            } else {
+                throw new RuntimeException(e.getMessage());
+            }
+
+        }
+    }
+
 
 }

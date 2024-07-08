@@ -17,8 +17,8 @@ public class ProductController {
     private ProductService productService;
 
     @GetMapping(value = "{productPid}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ProductResponse getProduct(@PathVariable String productPid){
-        return this.productService.getProduct(productPid);
+    public ProductResponse getProduct(@PathVariable String productPid) {
+        return      productService.validateProduct(productPid);
     }
 
 }

@@ -1,0 +1,4 @@
+/.idea/
+*.class
+/data/postgres/
+/aggregator-service/target/

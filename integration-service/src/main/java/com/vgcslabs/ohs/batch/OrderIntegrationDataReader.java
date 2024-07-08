@@ -13,7 +13,10 @@ import org.springframework.batch.item.file.transform.DelimitedLineTokenizer;
 import org.springframework.batch.item.file.transform.LineTokenizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.stereotype.Component;
+
+import java.io.IOException;
 
 import static com.vgcslabs.ohs.batch.BatchJobConstants.ORDER_INTEGRATION_FLAT_FILE_ITEM_READER;
 import static com.vgcslabs.ohs.util.BatchMappingUtils.getFieldNames;
@@ -26,10 +29,11 @@ public class OrderIntegrationDataReader {
 
     @Bean("orderIntegrationFlatFileItemReader")
     @StepScope
-    public FlatFileItemReader<OrderIntegrationData> reader() {
+    public FlatFileItemReader<OrderIntegrationData> reader() throws IOException {
         return new FlatFileItemReaderBuilder<OrderIntegrationData>()
+
                 .name(ORDER_INTEGRATION_FLAT_FILE_ITEM_READER)
-                .resource(new ClassPathResource(jobProperties.getOrderIntegrationInputFile()))
+                .resource(new FileSystemResource(jobProperties.getOrderIntegrationInputFile()))
                 .linesToSkip(1)
                 .lineMapper(orderIntegrationDataLineMapper())
                 .build();

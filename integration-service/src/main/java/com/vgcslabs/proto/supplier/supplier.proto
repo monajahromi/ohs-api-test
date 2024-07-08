@@ -7,7 +7,7 @@ package supplier;
 
 option go_package = "github.com/hub335/code-test/order-handling-system/supplier";
 option java_multiple_files = true;
-option java_package = "com.ohs.supplier";
+option java_package = "com.vgcslabs.supplier";
 
 
 service SupplierService {

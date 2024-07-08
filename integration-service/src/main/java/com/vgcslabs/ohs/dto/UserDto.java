@@ -1,4 +1,4 @@
-package com.ohs.integration.dto;
+package com.vgcslabs.ohs.dto;
 
 import lombok.Data;
 

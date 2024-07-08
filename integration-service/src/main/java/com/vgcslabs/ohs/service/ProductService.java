@@ -1,9 +1,8 @@
-package com.ohs.integration.service;
+package com.vgcslabs.ohs.service;
 
 import com.google.protobuf.StringValue;
-import com.ohs.product.ProductResponse;
-import com.ohs.product.ProductServiceGrpc;
-import lombok.AllArgsConstructor;
+import com.vgcslabs.product.ProductResponse;
+import com.vgcslabs.product.ProductServiceGrpc;
 import net.devh.boot.grpc.client.inject.GrpcClient;
 import org.springframework.stereotype.Service;
 

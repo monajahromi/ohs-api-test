@@ -1,7 +1,7 @@
-package com.ohs.integration.controller;
+package com.vgcslabs.ohs.controller;
 
-import com.ohs.integration.service.ProductService;
-import com.ohs.product.ProductResponse;
+import com.vgcslabs.ohs.service.ProductService;
+import com.vgcslabs.product.ProductResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;

@@ -1,14 +1,11 @@
-package com.ohs.integration.config;
+package com.vgcslabs.ohs.config;
 
 import com.google.protobuf.util.JsonFormat;
-import net.devh.boot.grpc.client.channelfactory.GrpcChannelConfigurer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.protobuf.ProtobufJsonFormatHttpMessageConverter;
-
-import java.util.concurrent.Executors;
 
 @Configuration
 public class ApplicationConfiguration {

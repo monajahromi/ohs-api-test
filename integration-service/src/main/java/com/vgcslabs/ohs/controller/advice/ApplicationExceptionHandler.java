@@ -1,9 +1,6 @@
-package com.ohs.integration.controller.advice;
+package com.vgcslabs.ohs.controller.advice;
 
-import io.grpc.StatusRuntimeException;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 
 @ControllerAdvice
 public class ApplicationExceptionHandler {

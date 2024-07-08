@@ -1,11 +1,9 @@
-package com.ohs.integration.service;
+package com.vgcslabs.ohs.service;
 
 import com.google.protobuf.StringValue;
-import com.ohs.supplier.SupplierResponse;
-import com.ohs.supplier.SupplierServiceGrpc;
-import com.ohs.user.CreateUserRequest;
-import com.ohs.user.UserResponse;
-import com.ohs.user.UserServiceGrpc;
+import com.vgcslabs.user.CreateUserRequest;
+import com.vgcslabs.user.UserResponse;
+import com.vgcslabs.user.UserServiceGrpc;
 import net.devh.boot.grpc.client.inject.GrpcClient;
 import org.springframework.stereotype.Service;
 

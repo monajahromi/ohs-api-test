@@ -1,8 +1,8 @@
-package com.ohs.integration.util;
+package com.vgcslabs.ohs.util;
 
 import com.google.protobuf.StringValue;
-import com.ohs.integration.dto.UserDto;
-import com.ohs.user.CreateUserRequest;
+import com.vgcslabs.ohs.dto.UserDto;
+import com.vgcslabs.user.CreateUserRequest;
 
 public class EntityMessageMapper {
 

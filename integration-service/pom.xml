@@ -9,15 +9,22 @@
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>3.3.1</version>
-        <relativePath/> <!-- lookup parent from repository -->
+        <relativePath/>
     </parent>
-    <groupId>com.ohs</groupId>
-    <artifactId>integration-service</artifactId>
+    <groupId>com.vgcslabs</groupId>
+    <artifactId>OrderIntegrationService</artifactId>
     <version>1.1.0</version>
     <packaging>jar</packaging>
 
-    <name>demo</name>
-    <description>Demo project for Spring Boot</description>
+    <name>Order Integration Service</name>
+    <description>
+        The OrderIntegrationService designed to integrate with an external supplier database.
+        It reads order data from CSV files,
+        creates users and orders via gRPC microservices,
+        and generates a JSON file containing processed order details.
+        This service leverages Spring Batch for batch processing and supports Java 21 and Spring 3.2.
+    </description>
+
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <grpc.version>1.58.0</grpc.version>
@@ -115,7 +122,7 @@
                     <pluginArtifact>io.grpc:protoc-gen-grpc-java:${grpc.version}:exe:${os.detected.classifier}
                     </pluginArtifact>
                     <protoSourceRoot>
-                        ${basedir}/src/main/java/com/ohs/proto
+                        ${basedir}/src/main/java/com/vgcslabs/proto
                     </protoSourceRoot>
                 </configuration>
                 <executions>

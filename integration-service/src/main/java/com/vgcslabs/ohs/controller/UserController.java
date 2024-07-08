@@ -1,12 +1,9 @@
-package com.ohs.integration.controller;
+package com.vgcslabs.ohs.controller;
 
-import com.ohs.integration.dto.UserDto;
-import com.ohs.integration.service.SupplierService;
-import com.ohs.integration.service.UserService;
-import com.ohs.integration.util.EntityMessageMapper;
-import com.ohs.supplier.SupplierResponse;
-import com.ohs.user.CreateUserRequest;
-import com.ohs.user.UserResponse;
+import com.vgcslabs.ohs.dto.UserDto;
+import com.vgcslabs.ohs.service.UserService;
+import com.vgcslabs.ohs.util.EntityMessageMapper;
+import com.vgcslabs.user.UserResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;

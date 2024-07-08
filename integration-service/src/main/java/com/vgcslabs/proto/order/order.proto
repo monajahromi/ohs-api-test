@@ -7,7 +7,7 @@ package order;
 
 option go_package = "github.com/hub335/code-test/order-handling-system/order";
 option java_multiple_files = true;
-option java_package = "com.ohs.order";
+option java_package = "com.vgcslabs.order";
 
 service OrderService {
   rpc CreateOrder(CreateOrderRequest) returns (OrderResponse);

@@ -24,5 +24,4 @@ public class OrderIntegrationDto {
     private Integer orderStatus;
 
 
-
 }

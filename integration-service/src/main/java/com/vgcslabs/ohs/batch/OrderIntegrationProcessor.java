@@ -1,6 +1,7 @@
 package com.vgcslabs.ohs.batch;
 
 
+import com.vgcslabs.ohs.dto.OrderBatchJobResponseDto;
 import com.vgcslabs.ohs.dto.OrderIntegrationDto;
 import com.vgcslabs.ohs.service.OrderService;
 import com.vgcslabs.ohs.service.ProductService;
@@ -17,7 +18,7 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @RequiredArgsConstructor
-public class OrderIntegrationProcessor implements ItemProcessor<OrderIntegrationDto, String> {
+public class OrderIntegrationProcessor implements ItemProcessor<OrderIntegrationDto, OrderBatchJobResponseDto> {
 
 
     private final ProductService productService;
@@ -26,32 +27,32 @@ public class OrderIntegrationProcessor implements ItemProcessor<OrderIntegration
     private final OrderService orderService;
 
     @Override
-    public String process(OrderIntegrationDto integrationDto) {
-
+    public OrderBatchJobResponseDto process(OrderIntegrationDto integrationDto) {
         System.out.println("In processor, " + integrationDto.getId());
-        ProductResponse productResponse = productService.validateProduct(integrationDto.getProductPid());
+        var productResponse = productService.validateProduct(integrationDto.getProductPid());
         System.out.println("product, " + productResponse.getName());
-        var sp = supplierService.validateSupplier(integrationDto.getSupplierPid());
-        System.out.println("supplier, " + sp.getName());
-        UserResponse userResponse = processUser(integrationDto);
+        var supplierResponse = supplierService.validateSupplier(integrationDto.getSupplierPid());
+        System.out.println("supplier, " + supplierResponse.getName());
+        var userResponse = processUser(integrationDto);
         System.out.println("user, " + userResponse.getEmail());
         System.out.println("user, " + userResponse.getPid());
-        CreateOrderRequest createOrderRequest = EntityMessageMapper.toCreateOrderRequest(integrationDto);
+        var createOrderRequest = EntityMessageMapper.toCreateOrderRequest(integrationDto);
 
         createOrderRequest.toBuilder().setUserPid(userResponse.getPid());
 
 
         OrderResponse orderResponse = orderService.createOrder(createOrderRequest);
         System.out.println("Order res, " + orderResponse.getPid());
-        return orderResponse.getPid();
-        //check for validation of supplier
-        // process user
-        // insert order
+        var responseDto = new OrderBatchJobResponseDto();
+        responseDto.setUserPid(userResponse.getPid());
+        responseDto.setOrderId(integrationDto.getOrderId());
+        responseDto.setSupplierPid(supplierResponse.getPid());
+        return responseDto;
 
     }
 
     public UserResponse processUser(OrderIntegrationDto orderIntegrationDto) {
-         UserResponse userResponse = userService.findUserByEmail(orderIntegrationDto.getEmail());
+        UserResponse userResponse = userService.findUserByEmail(orderIntegrationDto.getEmail());
         if (userResponse != null) {
             System.out.println("user Existed, " + userResponse.getEmail());
             return userResponse;
@@ -61,7 +62,6 @@ public class OrderIntegrationProcessor implements ItemProcessor<OrderIntegration
 
 
     }
-
 
 
 }

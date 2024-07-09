@@ -1,6 +1,7 @@
 package com.vgcslabs.ohs.batch;
 
 
+import com.vgcslabs.ohs.dto.OrderBatchJobResponseDto;
 import com.vgcslabs.ohs.dto.OrderIntegrationDto;
 import org.springframework.batch.item.ItemStreamWriter;
 import org.springframework.batch.item.ItemWriter;
@@ -9,25 +10,22 @@ import org.springframework.classify.Classifier;
 import org.springframework.stereotype.Component;
 
 @Component
-public class OrderIntegrationClassifierWriter implements Classifier<String, ItemWriter<? super String>> {
+public class OrderIntegrationClassifierWriter implements Classifier<OrderBatchJobResponseDto, ItemWriter<? super OrderBatchJobResponseDto>> {
 
-    private final ItemStreamWriter<String> successWriter;
-    private final ItemStreamWriter<String> failWriter;
+    private final ItemStreamWriter<OrderBatchJobResponseDto> successWriter;
+    private final ItemStreamWriter<OrderBatchJobResponseDto> failWriter;
 
     public OrderIntegrationClassifierWriter(
-            @Qualifier("orderIntegrationJsonItemWriterSuccess") ItemStreamWriter<String> successWriter,
-            @Qualifier("orderIntegrationJsonItemWriterFail") ItemStreamWriter<String> failWriter) {
+            @Qualifier("orderIntegrationJsonItemWriterSuccess") ItemStreamWriter<OrderBatchJobResponseDto> successWriter,
+            @Qualifier("orderIntegrationJsonItemWriterFail") ItemStreamWriter<OrderBatchJobResponseDto> failWriter) {
         this.successWriter = successWriter;
         this.failWriter = failWriter;
 
     }
 
     @Override
-    public ItemWriter<String> classify(String item) {
-        if (item.equals("a"))
+    public ItemWriter<OrderBatchJobResponseDto> classify(OrderBatchJobResponseDto item) {
             return successWriter;
-        else
-            return failWriter;
     }
 
 }

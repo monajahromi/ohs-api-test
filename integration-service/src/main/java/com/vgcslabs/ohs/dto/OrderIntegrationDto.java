@@ -21,7 +21,7 @@ public class OrderIntegrationDto {
     private String dateCreated;
     private String quantity;
     private String fullName;
-    private String orderStatus;
+    private Integer orderStatus;
 
 
 

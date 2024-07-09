@@ -27,7 +27,8 @@ public class OrderIntegrationProcessor implements ItemProcessor<OrderIntegration
 
     @Override
     public String process(OrderIntegrationDto integrationDto) {
-        System.out.println("In proccessor, " + integrationDto.getId());
+
+        System.out.println("In processor, " + integrationDto.getId());
         ProductResponse productResponse = productService.validateProduct(integrationDto.getProductPid());
         System.out.println("product, " + productResponse.getName());
         var sp = supplierService.validateSupplier(integrationDto.getSupplierPid());

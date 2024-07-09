@@ -28,6 +28,7 @@ public class ProductService {
 
             return this.productClient.getProductByPid(request);
         } catch (StatusRuntimeException e) {
+            System.out.println("productPid not valid, " + e.getMessage());
             if (e.getStatus().getCode().equals(Status.Code.UNKNOWN)) {
                 throw new NotFoundException(e.getMessage());
             } else {

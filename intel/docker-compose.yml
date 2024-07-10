@@ -7,7 +7,6 @@ services:
       - "50050:50050"
     volumes:
       - ../bootstrap/integration:/files-path
-      - type: bind
     env_file:
       - ../bootstrap/integration/.env
     depends_on:

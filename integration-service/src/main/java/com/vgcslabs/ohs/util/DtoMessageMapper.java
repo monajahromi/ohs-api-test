@@ -32,14 +32,12 @@ public class DtoMessageMapper {
                 .setCreditCardNumber(StringValue.of(dto.getCreditCardNumber()))
                 .setCreditCardType(StringValue.of(dto.getCreditCardType()))
                 .build();
-
         // Build the CreateUserRequest message
         return CreateUserRequest.newBuilder()
                 .setFullName(StringValue.of(dto.getFullName()))
                 .setEmail(dto.getEmail())
                 .setAddress(shippingAddress)
                 .addAllPaymentMethods(Collections.singletonList(paymentMethod))
-               // .setPassword(StringValue.of(dto.get))
                 .build();
     }
 
@@ -69,7 +67,7 @@ public class DtoMessageMapper {
                 break;
         }
 
-        // Build the CreateOrderRequest message
+         // Build the CreateOrderRequest message
         return CreateOrderRequest.newBuilder()
                 .addProducts(product)
                 .setDateCreated(StringValue.of(formatDate(dto.getDateCreated())))
@@ -84,7 +82,7 @@ public class DtoMessageMapper {
             LocalDateTime dateTime = LocalDateTime.parse(dateStr, DateTimeFormatter.ISO_DATE_TIME);
             return dateTime.toLocalDate().format(DateTimeFormatter.ISO_DATE);
         } catch (DateTimeParseException e) {
-            throw new IllegalArgumentException("Invalid date format: " + dateStr, e);
+            throw new IllegalArgumentException("Invalid date format:" + dateStr, e);
         }
     }
 

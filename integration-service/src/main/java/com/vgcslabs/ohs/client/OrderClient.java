@@ -26,9 +26,7 @@ public class OrderClient {
 
     public OrderResponse createOrder(CreateOrderRequest order) {
         try {
-            OrderResponse orderResponse = orderClient.createOrder(order);
-            System.out.println("orderResponse, " + orderResponse);
-            return orderResponse;
+            return orderClient.createOrder(order);
         } catch (StatusRuntimeException e) {
             System.out.println("Create Order Failed, " + e.getMessage());
             throw new RuntimeException("Create Order Failed: " + e.getMessage());

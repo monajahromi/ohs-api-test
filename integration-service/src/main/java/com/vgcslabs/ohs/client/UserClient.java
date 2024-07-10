@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 public class UserClient {
     private final UserServiceGrpc.UserServiceBlockingStub userClient;
     public UserClient(GrpcClientConfig clientConfig) {
-        System.out.println("user client : " + clientConfig.getUserAddress());
          ManagedChannel managedChannel = ManagedChannelBuilder.forTarget(clientConfig.getUserAddress())
                 .usePlaintext()
                 .build();
@@ -23,8 +22,7 @@ public class UserClient {
         try {
             return userClient.createUser(user);
         } catch (StatusRuntimeException e) {
-            System.out.println("Create User Failed, " + e.getMessage());
-            throw new RuntimeException("Create User Failed: " + e.getMessage());
+            throw new RuntimeException(e.getMessage());
         }
 
     }

@@ -25,13 +25,7 @@ public class SupplierClient {
         try {
             return supplierClient.getSupplierByPid(StringValue.newBuilder().setValue(supplierPid).build());
         } catch (StatusRuntimeException e) {
-            System.out.println("supplierPid not valid, " + e.getMessage());
-            if (e.getStatus().getCode().equals(Status.Code.UNKNOWN)) {
-                throw new NotFoundException(e.getMessage());
-            } else {
-                throw new RuntimeException(e.getMessage());
-            }
-
+            throw new RuntimeException(e.getMessage());
         }
     }
 

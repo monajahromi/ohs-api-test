@@ -10,7 +10,6 @@ import org.springframework.batch.core.step.builder.StepBuilder;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.item.ItemStreamWriter;
-import org.springframework.batch.item.support.ClassifierCompositeItemWriter;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
@@ -23,30 +22,29 @@ import static com.vgcslabs.ohs.batch.BatchJobConstants.ORDER_INTEGRATION_STEP;
 public class OrderIntegrationJobSetup {
     private final ItemProcessor<OrderIntegrationDto, OrderBatchJobResponseDto> processor;
     private final ItemReader<OrderIntegrationDto> reader;
-    private final ItemStreamWriter<OrderBatchJobResponseDto> successWriter;
+    private final ItemStreamWriter<OrderBatchJobResponseDto> writer;
 
     public OrderIntegrationJobSetup(
             @Qualifier("orderIntegrationFlatFileItemReader") ItemReader<OrderIntegrationDto> reader,
             ItemProcessor<OrderIntegrationDto, OrderBatchJobResponseDto> processor,
-            @Qualifier("orderIntegrationJsonItemWriterSuccess") ItemStreamWriter<OrderBatchJobResponseDto> successWriter
+            @Qualifier("orderIntegrationJsonItemWriter") ItemStreamWriter<OrderBatchJobResponseDto> writer
     ) {
 
         this.processor = processor;
         this.reader = reader;
-        this.successWriter = successWriter;
+        this.writer = writer;
    }
 
     @Bean("orderIntegrationStep")
     public Step importVisitorsStep(JobRepository jobRepository,
                                    PlatformTransactionManager transactionManager) {
         return new StepBuilder(ORDER_INTEGRATION_STEP, jobRepository)
-                .<OrderIntegrationDto, OrderBatchJobResponseDto>chunk(2, transactionManager)
+                .<OrderIntegrationDto, OrderBatchJobResponseDto>chunk(20, transactionManager)
                 .reader(reader)
                 .processor(processor)
-                .writer(successWriter)
+                .writer(writer)
                 .faultTolerant()
-                .skip(Exception.class)
-                .skipLimit(Integer.MAX_VALUE)
+                .skipPolicy(new OrderIntegrationSkipPolicy())
                 .build();
     }
 

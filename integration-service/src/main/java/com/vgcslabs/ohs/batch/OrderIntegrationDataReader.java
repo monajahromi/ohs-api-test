@@ -40,7 +40,6 @@ public class OrderIntegrationDataReader {
     }
 
     public LineMapper<OrderIntegrationDto> orderIntegrationDataLineMapper() {
-        System.out.println("IN orderIntegrationDataLineMapperorderIntegrationDataLineMapperorderIntegrationDataLineMapperorderIntegrationDataLineMapperorderIntegrationDataLineMapper");
         DefaultLineMapper<OrderIntegrationDto> lineMapper = new DefaultLineMapper<>();
         lineMapper.setLineTokenizer(orderIntegrationDataLineTokenizer());
         lineMapper.setFieldSetMapper(new OrderIntegrationFieldSetMapper());

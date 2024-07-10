@@ -5,6 +5,7 @@ import com.vgcslabs.ohs.dto.OrderBatchJobResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.batch.item.ItemStreamWriter;
 import org.springframework.batch.item.json.JacksonJsonObjectMarshaller;
+import org.springframework.batch.item.json.JsonFileItemWriter;
 import org.springframework.batch.item.json.builder.JsonFileItemWriterBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.io.FileSystemResource;
@@ -19,7 +20,7 @@ public class OrderIntegrationDataWriter {
     private final BatchJobConfig jobProperties;
 
     @Bean("orderIntegrationJsonItemWriter")
-    public ItemStreamWriter<OrderBatchJobResponseDto> jsonFileItemWriterSuccess() {
+    public JsonFileItemWriter<OrderBatchJobResponseDto> jsonFileItemWriter() {
 
       return  new JsonFileItemWriterBuilder<OrderBatchJobResponseDto>()
                 .jsonObjectMarshaller(new JacksonJsonObjectMarshaller<>())

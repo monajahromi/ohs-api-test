@@ -1,0 +1,3 @@
+id,firstName,lastName,email,supplierPid,creditCardNumber,creditCardType,orderId,productPid,shippingAddress,country,dateCreated,quantity,fullName,orderStatus
+1,John,Doe,john.doe@example.com,supplier-123,4111111111111111,VISA,order-123,product-456,123 Main St,USA,2023-07-01,1,John Doe,1
+2,Jane,Smith,jane.smith@example.com,supplier-456,4222222222222222,MasterCard,order-456,product-789,456 Elm St,USA,2023-07-02,2,Jane Smith,2

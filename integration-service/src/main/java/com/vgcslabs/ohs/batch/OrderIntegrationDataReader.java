@@ -1,8 +1,8 @@
 package com.vgcslabs.ohs.batch;
 
+import com.vgcslabs.ohs.config.BatchJobProperties;
 import com.vgcslabs.ohs.dto.OrderIntegrationDto;
 import lombok.RequiredArgsConstructor;
-import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.batch.item.file.FlatFileItemReader;
 import org.springframework.batch.item.file.LineMapper;
 import org.springframework.batch.item.file.builder.FlatFileItemReaderBuilder;
@@ -15,8 +15,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.stereotype.Component;
 
-import java.io.IOException;
-
 import static com.vgcslabs.ohs.batch.BatchJobConstants.ORDER_INTEGRATION_FLAT_FILE_ITEM_READER;
 import static com.vgcslabs.ohs.util.BatchMappingUtils.getFieldNames;
 
@@ -27,7 +25,7 @@ public class OrderIntegrationDataReader {
     private final BatchJobProperties jobProperties;
 
     @Bean("orderIntegrationFlatFileItemReader")
-    public FlatFileItemReader<OrderIntegrationDto> reader() throws IOException {
+    public FlatFileItemReader<OrderIntegrationDto> reader() {
         return new FlatFileItemReaderBuilder<OrderIntegrationDto>()
 
                 .name(ORDER_INTEGRATION_FLAT_FILE_ITEM_READER)
@@ -36,12 +34,14 @@ public class OrderIntegrationDataReader {
                 .lineMapper(orderIntegrationDataLineMapper())
                 .build();
     }
+
     public LineMapper<OrderIntegrationDto> orderIntegrationDataLineMapper() {
         DefaultLineMapper<OrderIntegrationDto> lineMapper = new DefaultLineMapper<>();
         lineMapper.setLineTokenizer(orderIntegrationDataLineTokenizer());
         lineMapper.setFieldSetMapper(orderIntegrationDataFieldSetMapper());
         return lineMapper;
     }
+
     public LineTokenizer orderIntegrationDataLineTokenizer() {
         DelimitedLineTokenizer tokenizer = new DelimitedLineTokenizer();
         tokenizer.setNames(getFieldNames((OrderIntegrationDto.class)));

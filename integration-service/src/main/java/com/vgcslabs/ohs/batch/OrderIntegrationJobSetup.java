@@ -1,5 +1,6 @@
 package com.vgcslabs.ohs.batch;
 
+import com.vgcslabs.ohs.dto.OrderBatchJobResponseDto;
 import com.vgcslabs.ohs.dto.OrderIntegrationDto;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
@@ -20,17 +21,17 @@ import static com.vgcslabs.ohs.batch.BatchJobConstants.ORDER_INTEGRATION_STEP;
 
 @Component
 public class OrderIntegrationJobSetup {
-    private final ItemProcessor<OrderIntegrationDto, String> processor;
+    private final ItemProcessor<OrderIntegrationDto, OrderBatchJobResponseDto> processor;
     private final ItemReader<OrderIntegrationDto> reader;
     private final OrderIntegrationClassifierWriter classifier;
-    private final ItemStreamWriter<String> successWriter;
-    private final ItemStreamWriter<String> failWriter;
+    private final ItemStreamWriter<OrderBatchJobResponseDto> successWriter;
+    private final ItemStreamWriter<OrderBatchJobResponseDto> failWriter;
 
     public OrderIntegrationJobSetup(
             @Qualifier("orderIntegrationFlatFileItemReader") ItemReader<OrderIntegrationDto> reader,
-            ItemProcessor<OrderIntegrationDto, String> processor,
-            @Qualifier("orderIntegrationJsonItemWriterSuccess") ItemStreamWriter<String> successWriter,
-            @Qualifier("orderIntegrationJsonItemWriterFail") ItemStreamWriter<String> failWriter,
+            ItemProcessor<OrderIntegrationDto, OrderBatchJobResponseDto> processor,
+            @Qualifier("orderIntegrationJsonItemWriterSuccess") ItemStreamWriter<OrderBatchJobResponseDto> successWriter,
+            @Qualifier("orderIntegrationJsonItemWriterFail") ItemStreamWriter<OrderBatchJobResponseDto> failWriter,
             OrderIntegrationClassifierWriter classifier
     ) {
 
@@ -46,7 +47,7 @@ public class OrderIntegrationJobSetup {
     public Step importVisitorsStep(JobRepository jobRepository,
                                    PlatformTransactionManager transactionManager) {
         return new StepBuilder(ORDER_INTEGRATION_STEP, jobRepository)
-                .<OrderIntegrationDto, String>chunk(10, transactionManager)
+                .<OrderIntegrationDto, OrderBatchJobResponseDto>chunk(2, transactionManager)
                 .reader(reader)
                 .processor(processor)
                 .writer(classifierCompositeItemWriter())
@@ -59,8 +60,8 @@ public class OrderIntegrationJobSetup {
     }
 
 
-    public ClassifierCompositeItemWriter<String> classifierCompositeItemWriter() {
-        ClassifierCompositeItemWriter<String> classifierCompositeItemWriter = new ClassifierCompositeItemWriter<>();
+    public ClassifierCompositeItemWriter<OrderBatchJobResponseDto> classifierCompositeItemWriter() {
+        ClassifierCompositeItemWriter<OrderBatchJobResponseDto> classifierCompositeItemWriter = new ClassifierCompositeItemWriter<>();
         classifierCompositeItemWriter.setClassifier(classifier);
         return classifierCompositeItemWriter;
     }

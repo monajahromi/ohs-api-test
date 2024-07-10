@@ -35,17 +35,14 @@ class OrderIntegrationDataReaderTest {
 
     @Test
     void testFlatFileItemReaderSuccess() throws Exception {
-        // Prepare a temporary test file
 
         String outputFileLocation = "src/test/resources/input.csv";
         reader.setResource(new FileSystemResource(outputFileLocation));
         reader.open(MetaDataInstanceFactory.createStepExecution().getExecutionContext());
         OrderIntegrationDto item = reader.read();
 
-        // Close the reader
         reader.close();
 
-        // Verify the read item
         assertNotNull(item);
         assertEquals("1", item.getId());
         assertEquals("John", item.getFirstName());

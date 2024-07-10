@@ -63,18 +63,14 @@ class OrderIntegrationProcessorTest {
         when(userClient.createUser(any())).thenReturn(mockUserResponse);
         when(orderClient.createOrder(any())).thenReturn(null);
 
-
-        // Test the process method
         OrderBatchJobResponseDto responseDto = processor.process(integrationDto);
 
-        // Verify interactions
         verify(productClient, times(1)).validateProduct("product123");
         verify(supplierClient, times(1)).validateSupplier("supplier456");
         verify(userClient, times(1)).findUserByEmail("test@example.com");
         verify(userClient, times(1)).createUser(any());
         verify(orderClient, times(1)).createOrder(any());
 
-        // Verify the response DTO
         assertEquals(userId, responseDto.getUserPid());
         assertEquals(orderId, responseDto.getOrderId());
         assertEquals(supplierId, responseDto.getSupplierPid());

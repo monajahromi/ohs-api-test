@@ -53,7 +53,7 @@ class OrderIntegrationDataWriterTest {
 
         Chunk<OrderBatchJobResponseDto> chunk = new Chunk<>();
         chunk.add(responseDto);
-        // Write the sample data
+
         String outputFileLocation = "src/test/resources/output.json";
         writer.setResource(new FileSystemResource(outputFileLocation));
 

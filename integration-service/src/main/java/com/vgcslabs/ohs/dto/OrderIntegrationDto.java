@@ -19,7 +19,7 @@ public class OrderIntegrationDto {
     private String shippingAddress;
     private String country;
     private String dateCreated;
-    private String quantity;
+    private Integer quantity;
     private String fullName;
     private Integer orderStatus;
 

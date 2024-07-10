@@ -2,31 +2,19 @@ package com.vgcslabs.ohs.util;
 
 import com.google.protobuf.StringValue;
 import com.vgcslabs.ohs.dto.OrderIntegrationDto;
-import com.vgcslabs.ohs.dto.UserDto;
 import com.vgcslabs.order.CreateOrderRequest;
 import com.vgcslabs.order.OrderStatus;
 import com.vgcslabs.order.Product;
 import com.vgcslabs.user.CreateUserRequest;
 import com.vgcslabs.user.PaymentMethod;
 import com.vgcslabs.user.ShippingAddress;
-import com.vgcslabs.user.UserUpdateRequest;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.Collections;
 
-public class EntityMessageMapper {
-
-    public static CreateUserRequest userDtoToCreateUserRequest(UserDto user) {
-        return CreateUserRequest.newBuilder()
-                .setFullName(StringValue.newBuilder().setValue(user.getFullName()).build())
-                .setPassword(StringValue.newBuilder().setValue(user.getPassword()).build())
-                .setEmail(user.getEmail())
-                .build();
-    }
-
-
+public class DtoMessageMapper {
 
     public static CreateUserRequest toCreateUserRequest(OrderIntegrationDto dto) {
         if (dto == null) {

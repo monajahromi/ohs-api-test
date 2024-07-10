@@ -1,5 +1,26 @@
 version: '3.9'
 services:
+  integration-service:
+    image: integration-service:amd64
+    container_name: integration-service
+    ports:
+      - "50050:50050"
+    volumes:
+      - ../bootstrap/integration:/files-path
+      - type: bind
+    env_file:
+      - ../bootstrap/integration/.env
+    depends_on:
+      product:
+        condition: service_started
+      supplier:
+        condition: service_started
+      user-service:
+        condition: service_started
+      order:
+        condition: service_started
+    networks:
+      - ohs
   keycloak:
     image: public.ecr.aws/vgcslabs/dev-keycloak:amd64
     container_name: keycloak

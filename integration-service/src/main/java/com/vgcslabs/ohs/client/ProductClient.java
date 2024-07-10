@@ -1,4 +1,4 @@
-package com.vgcslabs.ohs.service;
+package com.vgcslabs.ohs.client;
 
 import com.google.protobuf.StringValue;
 import com.vgcslabs.ohs.config.GrpcClientConfig;
@@ -12,9 +12,9 @@ import io.grpc.StatusRuntimeException;
 import org.springframework.stereotype.Service;
 
 @Service
-public class ProductService {
+public class ProductClient {
     private final ProductServiceGrpc.ProductServiceBlockingStub productClient;
-    public ProductService(GrpcClientConfig clientConfig) {
+    public ProductClient(GrpcClientConfig clientConfig) {
         ManagedChannel managedChannel = ManagedChannelBuilder.forTarget(clientConfig.getProductAddress())
                 .usePlaintext()
                 .build();

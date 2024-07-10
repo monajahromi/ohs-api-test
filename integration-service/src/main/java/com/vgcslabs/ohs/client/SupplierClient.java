@@ -1,4 +1,4 @@
-package com.vgcslabs.ohs.service;
+package com.vgcslabs.ohs.client;
 
 import com.google.protobuf.StringValue;
 import com.vgcslabs.ohs.config.GrpcClientConfig;
@@ -12,19 +12,14 @@ import io.grpc.StatusRuntimeException;
 import org.springframework.stereotype.Service;
 
 @Service
-public class SupplierService {
+public class SupplierClient {
     private final SupplierServiceGrpc.SupplierServiceBlockingStub supplierClient;
-    public SupplierService(GrpcClientConfig clientConfig) {
+    public SupplierClient(GrpcClientConfig clientConfig) {
         ManagedChannel managedChannel = ManagedChannelBuilder.forTarget(clientConfig.getSupplierAddress())
                 .usePlaintext()
                 .build();
         this.supplierClient = SupplierServiceGrpc.newBlockingStub(managedChannel);
 
-    }
-
-    public SupplierResponse getSupplierByPid(String supplierPid) {
-        var request = StringValue.newBuilder().setValue(supplierPid).build();
-        return supplierClient.getSupplierByPid( request);
     }
     public SupplierResponse validateSupplier(String supplierPid) {
         try {

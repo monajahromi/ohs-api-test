@@ -1,4 +1,4 @@
-package com.vgcslabs.ohs.service;
+package com.vgcslabs.ohs.client;
 
 import com.vgcslabs.ohs.config.GrpcClientConfig;
 import com.vgcslabs.order.CreateOrderRequest;
@@ -11,10 +11,10 @@ import org.springframework.stereotype.Service;
 
 @Service
 
-public class OrderService {
+public class OrderClient {
 
     private final OrderServiceGrpc.OrderServiceBlockingStub orderClient;
-    public OrderService(GrpcClientConfig clientConfig) {
+    public OrderClient(GrpcClientConfig clientConfig) {
 
         ManagedChannel managedChannel = ManagedChannelBuilder.forTarget(clientConfig.getOrderAddress())
                 .usePlaintext()

@@ -1,4 +1,4 @@
-package com.vgcslabs.ohs.util;
+package com.vgcslabs.ohs.batch;
 
 import java.lang.reflect.Field;
 import java.util.Arrays;

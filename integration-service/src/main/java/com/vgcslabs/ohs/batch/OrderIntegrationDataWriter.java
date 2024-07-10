@@ -1,6 +1,6 @@
 package com.vgcslabs.ohs.batch;
 
-import com.vgcslabs.ohs.config.BatchJobProperties;
+import com.vgcslabs.ohs.config.BatchJobConfig;
 import com.vgcslabs.ohs.dto.OrderBatchJobResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.batch.item.ItemStreamWriter;
@@ -16,26 +16,16 @@ import static com.vgcslabs.ohs.batch.BatchJobConstants.ORDER_INTEGRATION_JSON_IT
 @RequiredArgsConstructor
 public class OrderIntegrationDataWriter {
 
-    private final BatchJobProperties jobProperties;
+    private final BatchJobConfig jobProperties;
 
-    @Bean("orderIntegrationJsonItemWriterSuccess")
+    @Bean("orderIntegrationJsonItemWriter")
     public ItemStreamWriter<OrderBatchJobResponseDto> jsonFileItemWriterSuccess() {
 
       return  new JsonFileItemWriterBuilder<OrderBatchJobResponseDto>()
                 .jsonObjectMarshaller(new JacksonJsonObjectMarshaller<>())
-                .resource(new FileSystemResource(jobProperties.getOrderIntegrationOutputSucessFile()))
+                .resource(new FileSystemResource(jobProperties.getOrderIntegrationOutputFile()))
                 .name(ORDER_INTEGRATION_JSON_ITEM_WRITER)
                 .build();
     }
-//    @Bean("orderIntegrationJsonItemWriterFail")
-//    public ItemStreamWriter<OrderBatchJobResponseDto> jsonFileItemWriterFail() {
-//       return new JsonFileItemWriterBuilder<OrderBatchJobResponseDto>()
-//                .jsonObjectMarshaller(new JacksonJsonObjectMarshaller<>())
-//                .resource(new FileSystemResource(jobProperties.getOrderIntegrationOutputFailFile()))
-//                .name(ORDER_INTEGRATION_JSON_ITEM_WRITER)
-//                .build();
-//
-//    }
-
 
 }

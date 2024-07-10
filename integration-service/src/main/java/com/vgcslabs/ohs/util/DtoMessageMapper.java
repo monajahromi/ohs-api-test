@@ -16,29 +16,49 @@ import java.util.Collections;
 
 public class DtoMessageMapper {
 
+    public static void main(String[] args) {
+        var a = new OrderIntegrationDto() ;
+        a.setEmail("dddd");
+        toCreateUserRequest(a);
+    }
     public static CreateUserRequest toCreateUserRequest(OrderIntegrationDto dto) {
         if (dto == null) {
             return null;
         }
 
         // Build the ShippingAddress message
-        ShippingAddress shippingAddress = ShippingAddress.newBuilder()
-                .setAddress(StringValue.of(dto.getShippingAddress()))
-                .setCountry(StringValue.of(dto.getCountry()))
-                .build();
+        ShippingAddress.Builder shippingAddressBuilder = ShippingAddress.newBuilder();
+        if (dto.getShippingAddress() != null) {
+            shippingAddressBuilder.setAddress(StringValue.of(dto.getShippingAddress()));
+        }
+        if (dto.getCountry() != null) {
+            shippingAddressBuilder.setCountry(StringValue.of(dto.getCountry()));
+        }
+        ShippingAddress shippingAddress = shippingAddressBuilder.build();
+
+        PaymentMethod.Builder paymentMethodBuilder = PaymentMethod.newBuilder();
+        if (dto.getCreditCardNumber() != null) {
+            paymentMethodBuilder.setCreditCardNumber(StringValue.of(dto.getCreditCardNumber()));
+        }
+        if (dto.getCreditCardType() != null) {
+            paymentMethodBuilder.setCreditCardType(StringValue.of(dto.getCreditCardType()));
+        }
+        PaymentMethod paymentMethod = paymentMethodBuilder.build();
 
         // Build the PaymentMethod message
-        PaymentMethod paymentMethod = PaymentMethod.newBuilder()
-                .setCreditCardNumber(StringValue.of(dto.getCreditCardNumber()))
-                .setCreditCardType(StringValue.of(dto.getCreditCardType()))
-                .build();
-        // Build the CreateUserRequest message
-        return CreateUserRequest.newBuilder()
-                .setFullName(StringValue.of(dto.getFullName()))
+        CreateUserRequest.Builder requestBuilder = CreateUserRequest.newBuilder()
                 .setEmail(dto.getEmail())
-                .setAddress(shippingAddress)
-                .addAllPaymentMethods(Collections.singletonList(paymentMethod))
-                .build();
+                .addAllPaymentMethods(Collections.singletonList(paymentMethod));
+
+        if (dto.getFullName() != null) {
+            requestBuilder.setFullName(StringValue.of(dto.getFullName()));
+        }
+        if (shippingAddress != null) {
+            requestBuilder.setAddress(shippingAddress);
+        }
+
+
+        return requestBuilder.build();
     }
 
 
@@ -66,14 +86,17 @@ public class DtoMessageMapper {
                 orderStatus = OrderStatus.DELIVERED;
                 break;
         }
-
-         // Build the CreateOrderRequest message
-        return CreateOrderRequest.newBuilder()
+        // Build the CreateOrderRequest message
+        CreateOrderRequest.Builder requestBuilder = CreateOrderRequest.newBuilder()
                 .addProducts(product)
-                .setDateCreated(StringValue.of(formatDate(dto.getDateCreated())))
                 .setStatus(orderStatus)
-                .setQuantity(Integer.parseInt(dto.getQuantity()))
-                .build();
+                .setQuantity(dto.getQuantity());
+
+        if (dto.getDateCreated() != null) {
+            requestBuilder.setDateCreated(StringValue.of(formatDate(dto.getDateCreated())));
+        }
+
+        return requestBuilder.build();
     }
 
 

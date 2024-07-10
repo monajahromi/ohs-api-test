@@ -1,17 +1,28 @@
 package com.vgcslabs.ohs.service;
 
+import com.vgcslabs.ohs.config.GrpcClientConfig;
 import com.vgcslabs.order.CreateOrderRequest;
 import com.vgcslabs.order.OrderResponse;
 import com.vgcslabs.order.OrderServiceGrpc;
+import io.grpc.ManagedChannel;
+import io.grpc.ManagedChannelBuilder;
 import io.grpc.StatusRuntimeException;
-import net.devh.boot.grpc.client.inject.GrpcClient;
 import org.springframework.stereotype.Service;
 
 @Service
 
 public class OrderService {
-    @GrpcClient("order-service")
-    private OrderServiceGrpc.OrderServiceBlockingStub orderClient;
+
+    private final OrderServiceGrpc.OrderServiceBlockingStub orderClient;
+    public OrderService(GrpcClientConfig clientConfig) {
+
+        ManagedChannel managedChannel = ManagedChannelBuilder.forTarget(clientConfig.getOrderAddress())
+                .usePlaintext()
+                .build();
+        this.orderClient = OrderServiceGrpc.newBlockingStub(managedChannel);
+
+    }
+
 
     public OrderResponse createOrder(CreateOrderRequest order) {
         try {

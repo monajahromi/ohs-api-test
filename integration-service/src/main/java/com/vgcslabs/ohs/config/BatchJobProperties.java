@@ -1,4 +1,4 @@
-package com.vgcslabs.ohs.batch;
+package com.vgcslabs.ohs.config;
 
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Value;
@@ -19,5 +19,4 @@ public class BatchJobProperties {
 
     @Value("${order.integration.csv.read.linesToSkip::#{1}}")
     private int linesToSkip;
-
 }

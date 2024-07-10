@@ -1,19 +1,26 @@
 package com.vgcslabs.ohs.service;
 
 import com.google.protobuf.StringValue;
+import com.vgcslabs.ohs.config.GrpcClientConfig;
 import com.vgcslabs.ohs.exception.NotFoundException;
 import com.vgcslabs.supplier.SupplierResponse;
 import com.vgcslabs.supplier.SupplierServiceGrpc;
+import io.grpc.ManagedChannel;
+import io.grpc.ManagedChannelBuilder;
 import io.grpc.Status;
 import io.grpc.StatusRuntimeException;
-import net.devh.boot.grpc.client.inject.GrpcClient;
 import org.springframework.stereotype.Service;
 
 @Service
 public class SupplierService {
+    private final SupplierServiceGrpc.SupplierServiceBlockingStub supplierClient;
+    public SupplierService(GrpcClientConfig clientConfig) {
+        ManagedChannel managedChannel = ManagedChannelBuilder.forTarget(clientConfig.getSupplierAddress())
+                .usePlaintext()
+                .build();
+        this.supplierClient = SupplierServiceGrpc.newBlockingStub(managedChannel);
 
-    @GrpcClient("supplier-service")
-    private SupplierServiceGrpc.SupplierServiceBlockingStub supplierClient;
+    }
 
     public SupplierResponse getSupplierByPid(String supplierPid) {
         var request = StringValue.newBuilder().setValue(supplierPid).build();

@@ -1,16 +1,23 @@
 package com.vgcslabs.ohs.service;
 
 import com.google.protobuf.StringValue;
+import com.vgcslabs.ohs.config.GrpcClientConfig;
 import com.vgcslabs.user.*;
+import io.grpc.ManagedChannel;
+import io.grpc.ManagedChannelBuilder;
 import io.grpc.StatusRuntimeException;
-import net.devh.boot.grpc.client.inject.GrpcClient;
 import org.springframework.stereotype.Service;
 
 @Service
 public class UserService {
+    private final UserServiceGrpc.UserServiceBlockingStub userClient;
+    public UserService(GrpcClientConfig clientConfig) {
+         ManagedChannel managedChannel = ManagedChannelBuilder.forTarget(clientConfig.getUserAddress())
+                .usePlaintext()
+                .build();
+        this.userClient = UserServiceGrpc.newBlockingStub(managedChannel);
 
-    @GrpcClient("user-service")
-    private UserServiceGrpc.UserServiceBlockingStub userClient;
+    }
 
     public UserResponse getUser(String userPid) {
         var request = StringValue.newBuilder().setValue(userPid).build();

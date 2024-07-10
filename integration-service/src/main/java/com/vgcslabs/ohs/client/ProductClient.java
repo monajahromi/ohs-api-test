@@ -2,7 +2,6 @@ package com.vgcslabs.ohs.client;
 
 import com.google.protobuf.StringValue;
 import com.vgcslabs.ohs.config.GrpcClientConfig;
-import com.vgcslabs.product.ProductResponse;
 import com.vgcslabs.product.ProductServiceGrpc;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;

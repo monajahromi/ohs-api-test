@@ -8,7 +8,6 @@ import com.vgcslabs.ohs.client.UserClient;
 import com.vgcslabs.ohs.dto.OrderBatchJobResponseDto;
 import com.vgcslabs.ohs.dto.OrderIntegrationDto;
 import com.vgcslabs.user.UserResponse;
-import com.vgcslabs.user.UserResponseOrBuilder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;

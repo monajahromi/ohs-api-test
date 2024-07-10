@@ -1,6 +1,5 @@
 package com.vgcslabs.ohs.dto;
 
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 

@@ -2,20 +2,15 @@ package com.vgcslabs.ohs.batch;
 
 import com.vgcslabs.ohs.config.BatchJobConfig;
 import com.vgcslabs.ohs.dto.OrderBatchJobResponseDto;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.batch.item.Chunk;
-import org.springframework.batch.item.ItemStreamWriter;
 import org.springframework.batch.item.json.JsonFileItemWriter;
 import org.springframework.batch.test.MetaDataInstanceFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.FileSystemResource;
-import org.springframework.core.io.FileUrlResource;
-import org.springframework.core.io.PathResource;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
@@ -23,7 +18,7 @@ import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest

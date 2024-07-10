@@ -3,7 +3,6 @@ package com.vgcslabs.ohs.batch;
 import com.vgcslabs.ohs.config.BatchJobConfig;
 import com.vgcslabs.ohs.dto.OrderBatchJobResponseDto;
 import lombok.RequiredArgsConstructor;
-import org.springframework.batch.item.ItemStreamWriter;
 import org.springframework.batch.item.json.JacksonJsonObjectMarshaller;
 import org.springframework.batch.item.json.JsonFileItemWriter;
 import org.springframework.batch.item.json.builder.JsonFileItemWriterBuilder;

@@ -27,15 +27,15 @@ public class OrderIntegrationDataWriter {
                 .name(ORDER_INTEGRATION_JSON_ITEM_WRITER)
                 .build();
     }
-    @Bean("orderIntegrationJsonItemWriterFail")
-    public ItemStreamWriter<OrderBatchJobResponseDto> jsonFileItemWriterFail() {
-       return new JsonFileItemWriterBuilder<OrderBatchJobResponseDto>()
-                .jsonObjectMarshaller(new JacksonJsonObjectMarshaller<>())
-                .resource(new FileSystemResource(jobProperties.getOrderIntegrationOutputFailFile()))
-                .name(ORDER_INTEGRATION_JSON_ITEM_WRITER)
-                .build();
-
-    }
+//    @Bean("orderIntegrationJsonItemWriterFail")
+//    public ItemStreamWriter<OrderBatchJobResponseDto> jsonFileItemWriterFail() {
+//       return new JsonFileItemWriterBuilder<OrderBatchJobResponseDto>()
+//                .jsonObjectMarshaller(new JacksonJsonObjectMarshaller<>())
+//                .resource(new FileSystemResource(jobProperties.getOrderIntegrationOutputFailFile()))
+//                .name(ORDER_INTEGRATION_JSON_ITEM_WRITER)
+//                .build();
+//
+//    }
 
 
 }

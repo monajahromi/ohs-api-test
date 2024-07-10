@@ -23,25 +23,18 @@ import static com.vgcslabs.ohs.batch.BatchJobConstants.ORDER_INTEGRATION_STEP;
 public class OrderIntegrationJobSetup {
     private final ItemProcessor<OrderIntegrationDto, OrderBatchJobResponseDto> processor;
     private final ItemReader<OrderIntegrationDto> reader;
-    private final OrderIntegrationClassifierWriter classifier;
     private final ItemStreamWriter<OrderBatchJobResponseDto> successWriter;
-    private final ItemStreamWriter<OrderBatchJobResponseDto> failWriter;
 
     public OrderIntegrationJobSetup(
             @Qualifier("orderIntegrationFlatFileItemReader") ItemReader<OrderIntegrationDto> reader,
             ItemProcessor<OrderIntegrationDto, OrderBatchJobResponseDto> processor,
-            @Qualifier("orderIntegrationJsonItemWriterSuccess") ItemStreamWriter<OrderBatchJobResponseDto> successWriter,
-            @Qualifier("orderIntegrationJsonItemWriterFail") ItemStreamWriter<OrderBatchJobResponseDto> failWriter,
-            OrderIntegrationClassifierWriter classifier
+            @Qualifier("orderIntegrationJsonItemWriterSuccess") ItemStreamWriter<OrderBatchJobResponseDto> successWriter
     ) {
 
         this.processor = processor;
         this.reader = reader;
-        this.classifier = classifier;
         this.successWriter = successWriter;
-        this.failWriter = failWriter;
-
-    }
+   }
 
     @Bean("orderIntegrationStep")
     public Step importVisitorsStep(JobRepository jobRepository,
@@ -50,20 +43,11 @@ public class OrderIntegrationJobSetup {
                 .<OrderIntegrationDto, OrderBatchJobResponseDto>chunk(2, transactionManager)
                 .reader(reader)
                 .processor(processor)
-                .writer(classifierCompositeItemWriter())
-                .stream(successWriter)
-                .stream(failWriter)
+                .writer(successWriter)
                 .faultTolerant()
                 .skip(Exception.class)
                 .skipLimit(Integer.MAX_VALUE)
                 .build();
-    }
-
-
-    public ClassifierCompositeItemWriter<OrderBatchJobResponseDto> classifierCompositeItemWriter() {
-        ClassifierCompositeItemWriter<OrderBatchJobResponseDto> classifierCompositeItemWriter = new ClassifierCompositeItemWriter<>();
-        classifierCompositeItemWriter.setClassifier(classifier);
-        return classifierCompositeItemWriter;
     }
 
     @Bean("orderIntegrationJob")

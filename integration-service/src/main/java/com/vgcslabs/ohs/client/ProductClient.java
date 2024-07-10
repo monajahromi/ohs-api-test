@@ -21,9 +21,9 @@ public class ProductClient {
 
     }
 
-    public ProductResponse validateProduct(String productPid) {
+    public void validateProduct(String productPid) {
         try {
-            return this.productClient.getProductByPid(StringValue.newBuilder().setValue(productPid).build());
+             this.productClient.getProductByPid(StringValue.newBuilder().setValue(productPid).build());
         } catch (StatusRuntimeException e) {
             throw new RuntimeException(e.getMessage());
         }

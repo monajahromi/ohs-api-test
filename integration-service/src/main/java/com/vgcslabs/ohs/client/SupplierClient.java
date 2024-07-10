@@ -21,9 +21,9 @@ public class SupplierClient {
         this.supplierClient = SupplierServiceGrpc.newBlockingStub(managedChannel);
 
     }
-    public SupplierResponse validateSupplier(String supplierPid) {
+    public void validateSupplier(String supplierPid) {
         try {
-            return supplierClient.getSupplierByPid(StringValue.newBuilder().setValue(supplierPid).build());
+             supplierClient.getSupplierByPid(StringValue.newBuilder().setValue(supplierPid).build());
         } catch (StatusRuntimeException e) {
             throw new RuntimeException(e.getMessage());
         }

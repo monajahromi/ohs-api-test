@@ -13,7 +13,7 @@ Follow these steps to get the project up and running on your local machine:
 ### Step 1: Clone the repository
 ```shell
 git clone https://github.com/monajahromi/ohs-api-test.git
-cd cd  ohs-api-test\integration-service
+ cd  ohs-api-test\integration-service
 ```
 
 ### Step 2: Installation and Running the application
